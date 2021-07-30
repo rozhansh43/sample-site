@@ -4,7 +4,7 @@
     <div  class='tag-input__tag'>
       <ul>
         <li v-for='tag in tags' :key='tag'>
-          <Tags :tag="tag"/>
+          <Tags :tag="tag" @removeTag="removeTag"/>
         </li>
       </ul>
     </div>
@@ -67,7 +67,7 @@ import Tags from '@/components/Tags'
     flex-direction: column;
     width:100%;
     height:100vh;
-    background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(102,126,234,1) 50%, rgba(69,252,250,1) 100%);
+    background: lightgrey
   }
   
   a {
@@ -81,7 +81,6 @@ import Tags from '@/components/Tags'
 }
   
   
-/*tag input style*/
   
   .tag-input {
     display: flex;
@@ -103,7 +102,7 @@ import Tags from '@/components/Tags'
     float: left;
     font-size: 14px;
     margin-right: 10px;
-    background-color: #667EEA;
+    background-color: lightgrey;
     border-radius: 8px;
     line-height: 24px;
     padding: 0 8px;

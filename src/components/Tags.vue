@@ -6,7 +6,7 @@
 
       <input type="text" v-show="ineditmode" v-model="tag.title" @keyup.enter="saved"/>  
 
-        <span @click='removeTag(index)'>
+        <span @click='removeTag'>
           x
         </span>
   </div>
@@ -27,6 +27,9 @@ export default {
       },
       saved () {
         this.ineditmode = false
+      },
+      removeTag() {
+        this.$emit('removeTag');
       }
     }
 }
