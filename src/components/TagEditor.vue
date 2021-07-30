@@ -2,6 +2,10 @@
 <div class="container">
   <div class='tag-input'>
     <div  class='tag-input__tag'>
+      <button @click="removeAll">
+        clear all
+      </button>
+      
       <ul>
         <li v-for='tag in tags' :key='tag'>
           <Tags :tag="tag" @removeTag="removeTag"/>
@@ -54,7 +58,9 @@ import Tags from '@/components/Tags'
           this.removeTag(this.tags.length - 1)
         }
       },
-      
+      removeAll () {
+        this.tags = []
+      }
     }
   }
 </script>
@@ -117,15 +123,22 @@ import Tags from '@/components/Tags'
     margin-left: 8px;
   }
   .tag-input__tag {
-    display:flex
+    display:flex;
+    align-items: center;
   }
     
   .tag-input__text {
     border: none;
     outline: none;
     font-size: 1em;
-  line-height: 40px;
-  background: none;
+    line-height: 40px;
+    background: none;
   }
-
+  button {
+    background: transparent;
+    border: 1px solid lightgray;
+    border-radius: 15px;
+    height: min-content;
+    padding: 6px;
+  }
 </style>
