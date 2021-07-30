@@ -1,21 +1,28 @@
 <template>
-  <div>
+   <div>
        <span @click="clicked" v-show="!ineditmode">
         {{ tag.title }}
-      </span>
+       </span>
 
-      <input type="text" v-show="ineditmode" v-model="tag.title" @keyup.enter="saved"/>  
+       <input 
+       type="text" 
+       v-show="ineditmode" 
+       v-model="tag.title" 
+       @keyup.enter="saved"
+       />  
 
-        <span @click='removeTag'>
+        <span @click='removeTag(index)'>
           x
         </span>
-  </div>
+   </div>
 </template>
 
 <script>
 export default {
     name: 'Tags',
-    props: ['tag'],
+    props: {
+        tag: { type: Array, default: () => [] }
+        },
     data () {
         return {
             ineditmode: false
@@ -28,13 +35,9 @@ export default {
       saved () {
         this.ineditmode = false
       },
-      removeTag() {
-        this.$emit('removeTag');
+      removeTag(index) {
+        this.$emit('removeTag', index);
       }
     }
 }
 </script>
-
-<style>
-
-</style>

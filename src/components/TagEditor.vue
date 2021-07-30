@@ -1,21 +1,21 @@
 <template>
-<div class="container">
+<div>
   <div class='tag-input'>
-    <div  class='tag-input__tag'>
+    <div class='tag-input-tags'>
       <button @click="removeAll">
         clear all
       </button>
-      
+
       <ul>
         <li v-for='tag in tags' :key='tag'>
-          <Tags :tag="tag" @removeTag="removeTag"/>
+          <Tags :tag="tag" @removeTag="removeTag(index)"/>
         </li>
       </ul>
     </div>
+
     <input
-      type='text'
       placeholder="Enter a Tag"
-      class='tag-input__text'
+      class='tag-input-text'
       @keydown.enter='addTag'
       @keydown.188='addTag'
       @keydown.delete='removeLastTag'
@@ -66,28 +66,9 @@ import Tags from '@/components/Tags'
 </script>
 
 <style>
-  .container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    width:100%;
-    height:100vh;
-    background: lightgrey
+  body {
+    background:lightgrey
   }
-  
-  a {
-  position: absolute;
-  right: 15px;
-  bottom: 15px;
-  font-weight: bold;
-  text-decoration: none;
-  color: #00003a;
-  font-size: 20px;
-}
-  
-  
-  
   .tag-input {
     display: flex;
     width: 50%;
@@ -102,7 +83,7 @@ import Tags from '@/components/Tags'
     margin-bottom: 10px;
   }
 
-  li {
+  .tag-input li {
     height: 24px;
     color: black;
     float: left;
@@ -116,25 +97,25 @@ import Tags from '@/components/Tags'
     list-style-type: none;
   }
 
-  .tag-input__tag > span {
+  .tag-input-tags > span {
     cursor: pointer;
     opacity: 0.75;
     display: inline-block;
     margin-left: 8px;
   }
-  .tag-input__tag {
+  .tag-input-tags {
     display:flex;
     align-items: center;
   }
     
-  .tag-input__text {
+  .tag-input-text {
     border: none;
     outline: none;
     font-size: 1em;
     line-height: 40px;
     background: none;
   }
-  button {
+  .tag-input button {
     background: transparent;
     border: 1px solid lightgray;
     border-radius: 15px;
