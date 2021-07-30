@@ -1,9 +1,12 @@
 <template>
 <div class="container">
   <div class='tag-input'>
-    <div v-for='(tag, index) in tags' :key='tag' class='tag-input__tag'>
-      {{ tag }}
-      <span @click='removeTag(index)'>x</span>
+    <div  class='tag-input__tag'>
+      <ul>
+        <li v-for='tag in tags' :key='tag'>
+          <Tags :tag="tag"/>
+        </li>
+      </ul>
     </div>
     <input
       type='text'
@@ -18,18 +21,28 @@
 </template>
 
 <script>
+import Tags from '@/components/Tags'
+
   export default {
+    name: "TagEditor",
+    components: {
+      Tags
+    },
     data() {
       return {
-        tags: ['tag', 'input'],
-        editable: false
+        tags: [
+          {title: 'tag1'},
+          {title: 'tag2'},
+          {title: 'tag3'},
+          {title: 'tag4'}
+        ],
       }
     },
     methods: {
       addTag(event) {
         let val = event.target.value
         if (val.length > 0) {
-          this.tags.push(val)
+          this.tags.push({title: val})
           event.target.value = ''
         }
       },
@@ -40,12 +53,13 @@
         if (event.target.value.length === 0) {
           this.removeTag(this.tags.length - 1)
         }
-      }
+      },
+      
     }
   }
 </script>
 
-<style scoped>
+<style>
   .container{
     display: flex;
     justify-content: center;
@@ -70,6 +84,7 @@
 /*tag input style*/
   
   .tag-input {
+    display: flex;
     width: 50%;
     border: 1px solid #D9DFE7;
     background: #fff;
@@ -82,18 +97,18 @@
     margin-bottom: 10px;
   }
 
-  .tag-input__tag {
+  li {
     height: 24px;
-    color: white;
+    color: black;
     float: left;
     font-size: 14px;
     margin-right: 10px;
     background-color: #667EEA;
     border-radius: 8px;
-    margin-top: 10px;
     line-height: 24px;
     padding: 0 8px;
     font-family: "Roboto";
+    list-style-type: none;
   }
 
   .tag-input__tag > span {
@@ -102,7 +117,10 @@
     display: inline-block;
     margin-left: 8px;
   }
-
+  .tag-input__tag {
+    display:flex
+  }
+    
   .tag-input__text {
     border: none;
     outline: none;
