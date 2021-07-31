@@ -8,7 +8,7 @@
 
       <ul>
         <li v-for='tag in tags' :key='tag'>
-          <Tags :tag="tag" @removeTag="removeTag(index)"/>
+          <tags :tag="tag" @removeTag="removeTag(index)"/>
         </li>
       </ul>
     </div>
