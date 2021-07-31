@@ -1,31 +1,44 @@
 <template>
-<div>
-  <div class='tag-input'>
+  <div>
     <div class='tag-input-tags'>
-      <button @click="removeAll">
-        clear all
-      </button>
-
+      <b-button @click="removeAll">
+        پاک کردن همه
+      </b-button>
+      
       <ul>
         <li v-for='tag in tags' :key='tag'>
-          <tags :tag="tag" @removeTag="removeTag(index)"/>
+          <tags :tag="tag" @removeTag="removeTag"/>
         </li>
       </ul>
+
+      <span class="mx-3" >
+        6 / {{ tags.length }}
+      </span>
     </div>
 
-    <input
-      placeholder="Enter a Tag"
-      class='tag-input-text'
-      @keydown.enter='addTag'
-      @keydown.188='addTag'
-      @keydown.delete='removeLastTag'
-    />
-  </div>
+    <div class='tag-input'>
+      <input
+        placeholder="افزودن تگ"
+        class='tag-input-text'
+        @keydown.enter='addTag(name)'
+        @keydown.delete='removeLastTag(index)'
+        maxlength="4" 
+        v-model="name"
+      />
+
+      <span>
+        4 / {{ name.length }} 
+      </span>
+
+      <b-button variant="info" @click="addTag(name)">
+        {{ $t('shared.add') +  "+" }}
+      </b-button>
+    </div>
   </div>
 </template>
 
 <script>
-import Tags from '@/components/Tags'
+import Tags from '@/components/shared/Tags'
 
   export default {
     name: "TagEditor",
@@ -34,28 +47,43 @@ import Tags from '@/components/Tags'
     },
     data() {
       return {
+        name: "",
         tags: [
-          {title: 'tag1'},
-          {title: 'tag2'},
-          {title: 'tag3'},
-          {title: 'tag4'}
+          { 
+            id: String(Math.floor(Math.random() * 999999999)),
+            name: 'tag1'
+          },
+          {
+            id: String(Math.floor(Math.random() * 999999999)),
+            name: 'tag2'
+          },
+          {
+            id: String(Math.floor(Math.random() * 999999999)),
+            name: 'tag3'
+          },
+          {
+            id: String(Math.floor(Math.random() * 999999999)),
+            name: 'tag4'
+          }
         ],
       }
     },
     methods: {
-      addTag(event) {
-        let val = event.target.value
-        if (val.length > 0) {
-          this.tags.push({title: val})
-          event.target.value = ''
+      addTag (name) {
+        if ( this.tags.length < 6 )  {
+          this.tags.push({
+          id: String(Math.floor(Math.random() * 999999999)),
+          name,
+          })
+          this.name = ""
         }
       },
-      removeTag(index) {
-        this.tags.splice(index, 1)
+      removeTag (tagId) {
+        this.tags = this.tags.filter(o => o.id !== tagId)
       },
-      removeLastTag(event) {
-        if (event.target.value.length === 0) {
-          this.removeTag(this.tags.length - 1)
+      removeLastTag (index) {
+        if ( this.name == 0 ) {
+          this.tags.splice(index, 1)
         }
       },
       removeAll () {
@@ -66,60 +94,70 @@ import Tags from '@/components/Tags'
 </script>
 
 <style>
-  body {
-    background:lightgrey
-  }
   .tag-input {
-    display: flex;
-    width: 50%;
     border: 1px solid #D9DFE7;
     background: #fff;
     border-radius: 4px;
-    font-size: 0.9em;
-    min-height: 45px;
     box-sizing: border-box;
-    padding: 0 10px;
-    font-family: "Roboto";
     margin-bottom: 10px;
+    width: 100%;
   }
 
-  .tag-input li {
-    height: 24px;
+  .tag-input-tags ul {
+    margin: 0!important;
+  }
+
+  .tag-input-tags li input{
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+  }
+
+  .tag-input-tags li {
     color: black;
     float: left;
-    font-size: 14px;
     margin-right: 10px;
     background-color: lightgrey;
-    border-radius: 8px;
+    border-radius: 17px;
     line-height: 24px;
-    padding: 0 8px;
-    font-family: "Roboto";
+    padding: 4px 14px;
     list-style-type: none;
   }
 
   .tag-input-tags > span {
     cursor: pointer;
     opacity: 0.75;
-    display: inline-block;
     margin-left: 8px;
   }
   .tag-input-tags {
-    display:flex;
+    display: flex;
     align-items: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .tag-input-tags button{
+    margin-right:5px
   }
     
   .tag-input-text {
     border: none;
     outline: none;
-    font-size: 1em;
     line-height: 40px;
     background: none;
+    width: 79%;
+    padding-right: 8px;
   }
-  .tag-input button {
+  .tag-input-tags button {
     background: transparent;
     border: 1px solid lightgray;
     border-radius: 15px;
     height: min-content;
     padding: 6px;
+  }
+  
+  .tag-input button {
+    border-radius: 38px;
+    margin: 5px;
   }
 </style>
