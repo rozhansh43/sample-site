@@ -22,7 +22,7 @@ export default {
     name: 'Tags',
     props: {
         tag: { type: Array, default: () => [] }
-        },
+    },
     data () {
         return {
             ineditmode: false
