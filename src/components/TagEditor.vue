@@ -1,5 +1,26 @@
 <template>
   <div>
+    <b-input-group prepend="تگ" class="mt-3 tag-input">
+      <b-form-input
+        placeholder="افزودن تگ"
+        class='tag-input-text'
+        @keydown.enter='addTag(name)'
+        @keydown.delete='removeLastTag'
+        maxlength="4" 
+        v-model="name"
+      />
+        
+      <b-input-group-append>
+        <span class="d-flex align-items-center mx-2">
+         4 / {{ name.length }} 
+        </span>
+
+        <b-button variant="info" @click="addTag(name)">
+          {{ "افزودن" +  " +" }}
+        </b-button>
+      </b-input-group-append>
+    </b-input-group>
+
     <div class='tag-input-tags'>
       <b-button @click="removeAll">
         پاک کردن همه
@@ -14,25 +35,6 @@
       <span class="mx-3" >
         6 / {{ tags.length }}
       </span>
-    </div>
-
-    <div class='tag-input'>
-      <input
-        placeholder="افزودن تگ"
-        class='tag-input-text'
-        @keydown.enter='addTag(name)'
-        @keydown.delete='removeLastTag'
-        maxlength="4" 
-        v-model="name"
-      />
-
-      <span>
-        4 / {{ name.length }} 
-      </span>
-
-      <b-button variant="info" @click="addTag(name)">
-        {{ "افزودن" +  "+" }}
-      </b-button>
     </div>
   </div>
 </template>
@@ -107,6 +109,10 @@ import Tags from '@/components/Tags'
     width: 100%;
   }
 
+  .tag-input input {
+    border:none
+  }
+
   .tag-input-tags ul {
     margin: 0!important;
   }
@@ -158,10 +164,5 @@ import Tags from '@/components/Tags'
     border-radius: 15px;
     height: min-content;
     padding: 6px;
-  }
-  
-  .tag-input button {
-    border-radius: 38px;
-    margin: 5px;
   }
 </style>

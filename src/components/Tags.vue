@@ -14,6 +14,7 @@
     <span v-if="this.editable == false" @click='removeTag(tag.id)'>
       x
     </span>
+
     <span v-else @click='removeTag(tag.id)'>
       >
     </span>
@@ -26,10 +27,6 @@ export default {
     props: {
       tag: { type: String },
       editable: { type: Boolean },
-    },
-    data () {
-      return {
-      }
     },
     methods: {
       clicked () {
