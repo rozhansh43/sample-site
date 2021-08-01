@@ -21,7 +21,7 @@
         placeholder="افزودن تگ"
         class='tag-input-text'
         @keydown.enter='addTag(name)'
-        @keydown.delete='removeLastTag(index)'
+        @keydown.delete='removeLastTag'
         maxlength="4" 
         v-model="name"
       />
@@ -74,7 +74,7 @@ import Tags from '@/components/Tags'
       if (this.tags.map((e) => e.name).includes(name)) {
         return;
       }
-      if (this.tags.length < 6) {
+      if (this.tags.length < 6 && name.length > 1 ) {
         this.tags.push({
           id: String(Math.floor(Math.random() * 999999999)),
           name,
@@ -85,9 +85,9 @@ import Tags from '@/components/Tags'
       removeTag (tagId) {
         this.tags = this.tags.filter(o => o.id !== tagId)
       },
-      removeLastTag (index) {
+      removeLastTag () {
         if ( this.name == 0 ) {
-          this.tags.splice(index, 1)
+          this.tags.pop()
         }
       },
       removeAll () {

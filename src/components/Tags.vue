@@ -11,8 +11,11 @@
     @keyup.enter="saved"
     />  
 
-    <span @click='removeTag(tag.id)'>
+    <span v-if="this.editable == false" @click='removeTag(tag.id)'>
       x
+    </span>
+    <span v-else @click='removeTag(tag.id)'>
+      >
     </span>
   </div>
 </template>
