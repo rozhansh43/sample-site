@@ -1,12 +1,12 @@
 <template>
   <div>
-    <span @click="clicked" v-show="!ineditmode">
-    {{ tag.name }}
+    <span @click="clicked" v-show="!editable">
+      {{ tag.name }}
     </span>
 
     <input 
     type="text" 
-    v-show="ineditmode" 
+    v-show="editable" 
     v-model="tag.name" 
     @keyup.enter="saved"
     />  
@@ -21,23 +21,26 @@
 export default {
     name: 'Tags',
     props: {
-      tag: { type: Array, default: () => [] }
+      tag: { type: String },
+      editable: { type: Boolean },
     },
     data () {
-        return {
-          ineditmode: false
-        }
+      return {
+      }
     },
     methods: {
       clicked () {
-        this.ineditmode = true
+        this.editable = true
       },
       saved () {
-        this.ineditmode = false
+        this.editable = false
       },
-      removeTag(tagId) {
-        this.$emit('removeTag', tagId);
-        this.ineditmode = false
+      removeTag (tagId) {
+        if ( this.editable == true ) {
+          this.editable = false
+        }else {
+          this.$emit('removeTag', tagId);
+        }
       }
     }
 }

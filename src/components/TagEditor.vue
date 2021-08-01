@@ -7,7 +7,7 @@
       
       <ul>
         <li v-for='tag in tags' :key='tag'>
-          <tags :tag="tag" @removeTag="removeTag"/>
+          <tags :tag="tag" :editable="editable" @removeTag="removeTag"/>
         </li>
       </ul>
 
@@ -31,14 +31,14 @@
       </span>
 
       <b-button variant="info" @click="addTag(name)">
-        {{ $t('shared.add') +  "+" }}
+        {{ "افزودن" +  "+" }}
       </b-button>
     </div>
   </div>
 </template>
 
 <script>
-import Tags from '@/components/shared/Tags'
+import Tags from '@/components/Tags'
 
   export default {
     name: "TagEditor",
@@ -47,6 +47,7 @@ import Tags from '@/components/shared/Tags'
     },
     data() {
       return {
+        editable: false,
         name: "",
         tags: [
           { 
@@ -69,13 +70,16 @@ import Tags from '@/components/shared/Tags'
       }
     },
     methods: {
-      addTag (name) {
-        if ( this.tags.length < 6 )  {
-          this.tags.push({
+      addTag(name) {
+      if (this.tags.map((e) => e.name).includes(name)) {
+        return;
+      }
+      if (this.tags.length < 6) {
+        this.tags.push({
           id: String(Math.floor(Math.random() * 999999999)),
           name,
-          })
-          this.name = ""
+        });
+        this.name = "";
         }
       },
       removeTag (tagId) {
