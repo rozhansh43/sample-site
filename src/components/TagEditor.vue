@@ -1,168 +1,257 @@
 <template>
   <div>
-    <b-input-group prepend="تگ" class="mt-3 tag-input">
-      <b-form-input
-        placeholder="افزودن تگ"
-        class='tag-input-text'
-        @keydown.enter='addTag(name)'
-        @keydown.delete='removeLastTag'
-        maxlength="4" 
-        v-model="name"
-      />
-        
-      <b-input-group-append>
-        <span class="d-flex align-items-center mx-2">
-         4 / {{ name.length }} 
-        </span>
+    <b-carousel
+      id="carousel-1"
+      v-model="slide"
+      :interval="4000"
+      controls
+      indicators
+      background="#ababab"
+      img-width="1024"
+      img-height="480"
+      style="text-shadow: 1px 1px 2px #333;"
+      @sliding-start="onSlideStart"
+      @sliding-end="onSlideEnd"
+    >
+      <!-- Text slides with image -->
+      <b-carousel-slide
+        caption="First slide"
+        text="Nulla vitae elit libero, a pharetra augue mollis interdum."
+        img-src="https://picsum.photos/1024/480/?image=52"
+      ></b-carousel-slide>
 
-        <b-button variant="info" @click="addTag(name)">
-          {{ "افزودن" +  " +" }}
-        </b-button>
-      </b-input-group-append>
-    </b-input-group>
+      <!-- Slides with custom text -->
+      <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=54">
+        <h1>Hello world!</h1>
+      </b-carousel-slide>
 
-    <div class='tag-input-tags'>
-      <b-button @click="removeAll">
-        پاک کردن همه
-      </b-button>
-      
-      <ul>
-        <li v-for='tag in tags' :key='tag'>
-          <tags :tag="tag" :editable="editable" @removeTag="removeTag"/>
-        </li>
-      </ul>
+      <!-- Slides with image only -->
+      <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=58"></b-carousel-slide>
 
-      <span class="mx-3" >
-        6 / {{ tags.length }}
-      </span>
-    </div>
+      <!-- Slides with img slot -->
+      <!-- Note the classes .d-block and .img-fluid to prevent browser default image alignment -->
+      <b-carousel-slide>
+        <template #img>
+          <img
+            class="d-block img-fluid w-100"
+            width="1024"
+            height="480"
+            src="https://picsum.photos/1024/480/?image=55"
+            alt="image slot"
+          >
+        </template>
+      </b-carousel-slide>
+
+      <!-- Slide with blank fluid image to maintain slide aspect ratio -->
+      <b-carousel-slide caption="Blank Image" img-blank img-alt="Blank image">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eros felis, tincidunt
+          a tincidunt eget, convallis vel est. Ut pellentesque ut lacus vel interdum.
+        </p>
+      </b-carousel-slide>
+    </b-carousel>
+
+    <b-container>
+      <b-col>
+        <img src="" />
+      </b-col>
+
+      <b-col>
+      </b-col>
+    </b-container>
+
+    <b-container fluid class="counters">
+      <b-row>
+        <b-col class="counter" data-count="150">{{ count }}</b-col>
+        <b-col class="counter" data-count="150">{{ count }}</b-col>
+        <b-col class="counter" data-count="150">{{ count }}</b-col>
+      </b-row>
+    </b-container>
+
+    <b-container>
+      <b-row>
+        <b-col class="portfolio-box shadow">
+          <b-card
+            class="border-0"
+            overlay
+            img-src="https://img.demo.persina.com/unsafe/720x720/https://static.demo.persina.com/Products/Image/4583cdf554e1427c9b68f31513128765.jpg"
+            img-alt="Card Image"
+            text-variant="white"
+          >
+          </b-card>
+
+          <div class="portfolio-info">
+            <h4>project name goes here 6</h4>
+            <p>category project</p>
+          </div>
+        </b-col>
+        <b-col class="portfolio-box shadow">
+          <b-card
+            class="border-0"
+            overlay
+            img-src="https://img.demo.persina.com/unsafe/720x720/https://static.demo.persina.com/Products/Image/4583cdf554e1427c9b68f31513128765.jpg"
+            img-alt="Card Image"
+            text-variant="white"
+          >
+          </b-card>
+
+          <div class="portfolio-info">
+            <h4>project name goes here 6</h4>
+            <p>category project</p>
+          </div>
+        </b-col>
+        <b-col class="portfolio-box shadow">
+          <b-card
+            class="border-0"
+            overlay
+            img-src="https://img.demo.persina.com/unsafe/720x720/https://static.demo.persina.com/Products/Image/4583cdf554e1427c9b68f31513128765.jpg"
+            img-alt="Card Image"
+            text-variant="white"
+          >
+          </b-card>
+
+          <div class="portfolio-info">
+            <h4>project name goes here 6</h4>
+            <p>category project</p>
+          </div>
+        </b-col>
+        <b-col class="portfolio-box shadow">
+          <b-card
+            class="border-0"
+            overlay
+            img-src="https://img.demo.persina.com/unsafe/720x720/https://static.demo.persina.com/Products/Image/4583cdf554e1427c9b68f31513128765.jpg"
+            img-alt="Card Image"
+            text-variant="white"
+          >
+          </b-card>
+
+          <div class="portfolio-info">
+            <h4>project name goes here 6</h4>
+            <p>category project</p>
+          </div>
+        </b-col>
+      </b-row>
+    </b-container>
+    {{ counter}}
   </div>
 </template>
 
 <script>
-import Tags from '@/components/Tags'
-
-  export default {
-    name: "TagEditor",
-    components: {
-      Tags
-    },
-    data() {
-      return {
-        editable: false,
-        name: "",
-        tags: [
-          { 
-            id: String(Math.floor(Math.random() * 999999999)),
-            name: 'tag1'
-          },
-          {
-            id: String(Math.floor(Math.random() * 999999999)),
-            name: 'tag2'
-          },
-          {
-            id: String(Math.floor(Math.random() * 999999999)),
-            name: 'tag3'
-          },
-          {
-            id: String(Math.floor(Math.random() * 999999999)),
-            name: 'tag4'
-          }
-        ],
-      }
-    },
-    methods: {
-      addTag(name) {
-      if (this.tags.map((e) => e.name).includes(name)) {
-        return;
-      }
-      if (this.tags.length < 6 && name.length > 1 ) {
-        this.tags.push({
-          id: String(Math.floor(Math.random() * 999999999)),
-          name,
-        });
-        this.name = "";
-        }
-      },
-      removeTag (tagId) {
-        this.tags = this.tags.filter(o => o.id !== tagId)
-      },
-      removeLastTag () {
-        if ( this.name == 0 ) {
-          this.tags.pop()
-        }
-      },
-      removeAll () {
-        this.tags = []
-      }
+export default {
+  data() {
+    return {
+      counter: 8,
+      sett:'',
     }
-  }
+  },
+// methods: {
+//     todo: function() {
+//       console.log(this.counter);
+//       var self = this;
+//       self.sett = setInterval(function() {
+//         self.counter += 1;
+//       }, 200);
+//     },
+//   },
+//   mounted() {
+//     this.todo();
+//     setTimeout(function() {
+//         clearInterval(self.sett);
+//       }, 3000);
+//   }
+}
 </script>
 
-<style>
-  .tag-input {
-    border: 1px solid #D9DFE7;
-    background: #fff;
-    border-radius: 4px;
-    box-sizing: border-box;
-    margin-bottom: 10px;
-    width: 100%;
-  }
+<style scoped>
 
-  .tag-input input {
-    border:none
-  }
+.portfolio-box {
+  position: relative;
+  width: 100%;
+  height: 18.5rem;
+  overflow: hidden;
+}
 
-  .tag-input-tags ul {
-    margin: 0!important;
-  }
+.portfolio-box img {
+  width: 100%;
+  height: 100%;
+}
 
-  .tag-input-tags li input{
-    text-align: center;
-    border: none;
-    border-radius: 5px;
-  }
+.portfolio-box .portfolio-info{
+  background-color: #47c9e5;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  z-index: 3;
+  transition: all ease-in-out 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
 
-  .tag-input-tags li {
-    color: black;
-    float: left;
-    margin-right: 10px;
-    background-color: lightgrey;
-    border-radius: 17px;
-    line-height: 24px;
-    padding: 4px 14px;
-    list-style-type: none;
-  }
+.portfolio-box:hover img {
+  transform: scale(1.5);
+  transition-duration: 2s;
+  transition-property: all;
+}
 
-  .tag-input-tags > span {
-    cursor: pointer;
-    opacity: 0.75;
-    margin-left: 8px;
-  }
-  .tag-input-tags {
-    display: flex;
-    align-items: center;
-    padding-top: 10px;
-    padding-bottom: 10px;
-  }
+.portfolio-box:hover .portfolio-info {
+  opacity: 0.9;
+  transition-duration: 1s;
+  transition-property: all;
+}
 
-  .tag-input-tags button{
-    margin-right:5px
-  }
-    
-  .tag-input-text {
-    border: none;
-    outline: none;
-    line-height: 40px;
-    background: none;
-    width: 79%;
-    padding-right: 8px;
-  }
-  .tag-input-tags button {
-    background: transparent;
-    border: 1px solid lightgray;
-    border-radius: 15px;
-    height: min-content;
-    padding: 6px;
-  }
+
+.portfolio-box .portfolio-info::after {
+    display: block;
+    content: "";
+    width: 48px;
+    height: 48px;
+    position: absolute;
+    bottom: 35px;
+    right: 35px;
+    border-bottom: 3px solid #d7dce1;
+    border-right: 3px solid #d7dce1;
+    transition: all 0.5s ease 0s;
+    z-index: 9994;
+}
+
+
+.portfolio-box .portfolio-info::before {
+    display: block;
+    content: "";
+    width: 48px;
+    height: 48px;
+    position: absolute;
+    top: 35px;
+    left: 35px;
+    border-top: 3px solid #d7dce1;
+    border-left: 3px solid #d7dce1;
+    transition: all 0.5s ease 0s;
+    z-index: 9994;
+}
+/* counter */
+.counters {
+  background-color: #000;
+  color:#fff;
+  margin: 100px auto 0;
+  text-align: center;
+  display: table;
+}
+
+.counter {
+  display: table-cell;
+  margin:1.5%;
+  font-size:50px;
+  background-color: grey;
+  width:200px;
+  border-radius: 50%;
+  height:200px;
+  vertical-align: middle;
+}
 </style>
